@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "description": "RxJS state for React",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "Sergei Egorov <bsideup@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "jest": "^24.7.1",
+    "prettier": "^1.17.0",
+    "rxjs-v5": "npm:rxjs@5.5.12"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "rxjs": "^6.5.1"
+  }
 }
