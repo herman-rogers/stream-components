@@ -4,6 +4,7 @@ node_js:
 - '11'
 
 stages:
+  - before_install
   - test
   - name: create-tag
     if: branch=master
@@ -12,6 +13,11 @@ stages:
 
 jobs:
   include:
+    - stage: before_install
+    - script: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version [version]
+    - stage: test
+    - script:
+      - yarn test
     - stage: create-tag
     - script:
       - git config --global user.email "builds@travis-ci.com"
