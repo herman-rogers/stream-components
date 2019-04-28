@@ -18,7 +18,7 @@ function isObservable(obj) {
 }
 
 export function getAdapter() {
-  const adapter = rxConnect.adapter || require('./rx6adapter');
+  const adapter = rxConnect.adapter || require('./rx5Adapter');
   return adapter.__esModule ? adapter.default : adapter;
 }
 

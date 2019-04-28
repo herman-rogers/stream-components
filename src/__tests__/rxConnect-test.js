@@ -3,9 +3,15 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { rxConnect } from '../';
 import { getAdapter } from '../rxConnect';
+import rx5Adapter from '../rx5Adapter';
 
-describe('rx-connect test', () => {
-  const Rx = getAdapter().Rx;
+describe('rxConnect RxJS 5', () => {
+  let Rx;
+
+  beforeEach(() => {
+    rxConnect.adapter = rx5Adapter;
+    Rx = getAdapter().Rx;
+  });
 
   it('works with Observable', () => {
     const props$ = Rx.Observable.of({ a: 123 });

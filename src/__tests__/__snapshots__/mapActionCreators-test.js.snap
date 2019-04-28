@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`map action creators creates FuncSubject-like action 1`] = `
+exports[`mapActionCreators RxJS 5 creates FuncSubject-like action 1`] = `
 Array [
   1,
   2,
@@ -8,14 +8,14 @@ Array [
 ]
 `;
 
-exports[`map action creators passes non-observables as is 1`] = `
+exports[`mapActionCreators RxJS 5 passes non-observables as is 1`] = `
 Object {
   "a": 123,
   "b": "hi!",
 }
 `;
 
-exports[`map action creators strips dollar sign from Observable property names 1`] = `
+exports[`mapActionCreators RxJS 5 strips dollar sign from Observable property names 1`] = `
 Object {
   "a": [Function],
 }
