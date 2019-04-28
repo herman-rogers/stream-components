@@ -23,7 +23,8 @@ jobs:
     - export PATH=$HOME/.yarn/bin:$PATH
     - git config --global user.email "builds@travis-ci.com"
     - git config --global user.name "Travis CI"
-    - git remote set-url origin https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components.git
+    - git remote set-url origin https://herman-rogers:${GITHUB_TOKEN}@github.com/herman-rogers/stream-components.git
+    - git remote -v # remove
     - git checkout master
     - yarn version --patch
     - export GIT_TAG=`node -p "require('./package.json').version"`
