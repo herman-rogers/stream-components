@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import { mapActionCreators } from '../';
 import { getAdapter } from '../rxConnect';
 
-describe('map action creators', () => {
+describe('mapActionCreators RxJS 6', () => {
   const { Rx } = getAdapter();
 
   it('passes non-observables as is', async () => {

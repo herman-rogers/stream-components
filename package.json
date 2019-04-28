@@ -23,8 +23,7 @@
     "jest": "^24.7.1",
     "jest-cli": "^24.7.1",
     "prettier": "^1.17.0",
-    "react-test-renderer": "^16.8.6",
-    "rxjs-v5": "npm:rxjs@5.5.12"
+    "react-test-renderer": "^16.8.6"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
