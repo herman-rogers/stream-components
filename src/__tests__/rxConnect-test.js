@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import { rxConnect } from '../';
 import { getAdapter } from '../rxConnect';
 
-describe('rx-connect test', () => {
+describe('rxConnect RxJS 6', () => {
   const Rx = getAdapter().Rx;
 
   it('works with Observable', () => {
