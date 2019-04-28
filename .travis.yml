@@ -14,7 +14,7 @@ stages:
 jobs:
   include:
     - stage: before_install
-    - script: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version [version]
+    - script: curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
     - stage: test
     - script:
       - yarn test
