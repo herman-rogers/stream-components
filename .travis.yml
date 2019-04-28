@@ -1,15 +1,9 @@
 language: node_js
 node_js:
 - '11'
-env:
-  global:
-    secure: IK0Xocjg3gvF7VTrClREwzChKcVHceFFA/vGD8Al9R1B/Xpb35yrVmMq54N33R9s2JtiGHV1oFtgEPC24DF6wdiM7V4EGjDPAg6uw8dUrKkfhQ7/HeX5fd6Xa/nBc6Aej9JdU+1oELMzVp82/ev50qJz84aRmvW0ab+7qKRcW1wZBJDcGSQJR6XjqsmaEAOQnQorxzGANtWLoZYFgAnHkGzLuVKYarz5H3F+lwOvYVC69LH49Y7w4B8y/XrPrgMhVaOGObsLgJaYnbQkMq7EeIYY5ypd07Q/2SnomsLL9TS2HRjZD4zJAoTB/urdR3vhgDST4dhrP4Er5KrtBQRJFbXbdjycnJi/au0GieKytchHnaHEM+PSkiDNWFypoHdSQ16ThrPbN2dSIE8UBKN9742ajIqYyiTpRGJCybK2WzNd2WJQTOEyqUrc057dAOexpqTxXrlFC3MJIxp8RBIfaZTs4ILmQADyTS9MLVX8AUlxeHHimMiCuZl1pg+j/Yz/5nsfC0cfAy/M62186zjLCkoeIfLJStxaCy+m8p4k27rK2mu409d/fXjn66oyzgO9hmh4tMZ7SsLtIYz+ZcVXYtnxvAUu/h4VPsQ/o/1/R/z62S+Uy4FFM61fSUPZp2fA3w8CEhI95cpEMcIDf0EGq1PbrY0FbO/sF989yAopsos=
 stages:
-#- test
 - name: create-tag
   if: branch = master
-#- name: init-deploy
-#- deploy
 jobs:
   include:
   - stage: test
@@ -20,8 +14,9 @@ jobs:
     - export PATH=$HOME/.yarn/bin:$PATH
     - git config --global user.email "builds@travis-ci.com"
     - git config --global user.name "Travis CI"
-    - git remote set-url origin https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components.git
-    - git remote -v # remove
+    - echo $GITHUB_URL
+    - git remote set-url origin $GITHUB_URL
+    - git remote -v
     - git checkout master
     - yarn version --patch
     - export GIT_TAG=`node -p "require('./package.json').version"`
@@ -39,3 +34,6 @@ jobs:
       secure: Gtjrs49LWGv+X4c+GDFxX10NNb6JZgblWEW53coiJVLsECJYHRb1LCuyLrne9oT2uMF4OhVgcWwz0Kh1Oj6DMsmMldAMw2ll1B7RR3TNYc0jnR/qHq7fV80EOl0oTM4/vsm+L8HGMskt07MYcAP+sF96As8TM3SUbkeN+0JpnCC5mx9xn6u9eQvapKqvVa9j6yUYa1ZnJ3TdlsNAKEcoUcfzNc4oG8V+CxRB6q2RX+mqLCpOlVW7/asa171A1YTASJlWlNiwtFs41R6SMk9XNtwHHxCZoKWqiu8pyhLOztcaoJc2gJ2HvXz3zBWFgjR2QFvAlavzDrUdLCzr4/xXuM5I5V+N+L78SkO7un3QfvMOTNqLCHWKrPwWkJIMC/XTJWcbBEVUop6JtEU3RlAiQZ7wETxEIGCX209YVJAmX4htdVym6jKJVmdwhMs+iastNR2OEjutyG1h8vb4UU43dGeKhYnBsVAqD//XxCuw90cPQeiIigK3WRQVDPZ9V6UXQ53KpOFqH/oMYZOHbRT0IO4odCYTog6tFhZg1qJWgqwRrnyqgpEZ6mZco6KCz2Keeli/vmzKaa2SWe8sZy/f40iLE/y8+HOtCOBJ+MbDYzHynq2Cs56EebbjzOQ8T6W9fnLfhoFaq7me7/42NsYUp+GPgl9glCFoCqMoCYMtFJs=
     on:
       tags: true
+env:
+  global:
+    secure: enorwOZVzhdCPysEW/6H5vtsPCDeT4Ov1eCFavvpVmLp15N/aX9JOQfQZfOTNagpfQ3lg3/EA8FEgpl4fdbTln4RI5TFsPbFTSAoYEdZuN3COO3DcerZyZizyrYWRN2ig3x79kTgC/fXPJnoPBYcn9f6ZUgQKwrtrJD02xoYXZ9DUz2nj9AAliFOr63tZW6P5YW0ouLniKUWTBB8euhJYb7UwLuyRXB3nOD+YT5iv4twMbAbBtiMe/X2Op4hs0SMP7USC7RFV8784trWHPkcyVe/fnmIgh6K8DKf8N4hy9F8st4KdsgCBw/V5wz6D+RpF258vcaEVyrjnMrA6ErNpo2to5jkdPoThydoeSLkzrK9wcv/ebkzVQMIZk02E2u7hNYc7sxQ9hpSNkRwzvr+295xcsTz8AAZcANIOuvGdcsLC7KLRnFhgPR74I67Y3a9plQ/zO5Q66qg5y8NBQ5VwZsbs8ynLBviUWZC8vPv6gGBIw+7AbwAueSnGfDhMflWObYyC7dWIP4kgv8+lfyzJC5M8hxE1LcA9R+sCEW9FYsytsHOtEgIZZScS1hwsDi6PW01tnoYCq3Tgf013M/GnKaIlJNX+/NFky0MG2mlD5o2aBgoGAme+83BeCZ5q4Iy5lwpPsg9F/f6V1KNVZDkdTVwmYb1rYgz6WTCK0AQEbk=
