@@ -3,21 +3,33 @@ language: node_js
 node_js:
 - '11'
 
+stages:
+  - test
+  - name: create-tag
+    if: branch=master
+  - init-deploy
+  - deploy
+
 jobs:
   include:
     - stage: test
     - script:
       - yarn test
-    - stage: master-tag
+    - stage: create-tag
     - script:
       - git config --global user.email "builds@travis-ci.com"
       - git config --global user.name "Travis CI"
       - echo $GIT_TAG
-      if: branch = master
+      - yarn version --new-version $GIT_TAG
+      - git add package.json && git commit -m "Update npm version to $GIT_TAG"
+      - git push origin master
+      - git push origin $GIT_TAG
       env: GIT_TAG=`node -p "require('./package.json').version"`
-    - stage: before_deploy
+    - stage: init-deploy
       script:
         - yarn build
+      on:
+        tags: true
     - stage: deploy
       provider: npm
       email: herman.rogers@pm.me
@@ -25,7 +37,6 @@ jobs:
         secure: Gtjrs49LWGv+X4c+GDFxX10NNb6JZgblWEW53coiJVLsECJYHRb1LCuyLrne9oT2uMF4OhVgcWwz0Kh1Oj6DMsmMldAMw2ll1B7RR3TNYc0jnR/qHq7fV80EOl0oTM4/vsm+L8HGMskt07MYcAP+sF96As8TM3SUbkeN+0JpnCC5mx9xn6u9eQvapKqvVa9j6yUYa1ZnJ3TdlsNAKEcoUcfzNc4oG8V+CxRB6q2RX+mqLCpOlVW7/asa171A1YTASJlWlNiwtFs41R6SMk9XNtwHHxCZoKWqiu8pyhLOztcaoJc2gJ2HvXz3zBWFgjR2QFvAlavzDrUdLCzr4/xXuM5I5V+N+L78SkO7un3QfvMOTNqLCHWKrPwWkJIMC/XTJWcbBEVUop6JtEU3RlAiQZ7wETxEIGCX209YVJAmX4htdVym6jKJVmdwhMs+iastNR2OEjutyG1h8vb4UU43dGeKhYnBsVAqD//XxCuw90cPQeiIigK3WRQVDPZ9V6UXQ53KpOFqH/oMYZOHbRT0IO4odCYTog6tFhZg1qJWgqwRrnyqgpEZ6mZco6KCz2Keeli/vmzKaa2SWe8sZy/f40iLE/y8+HOtCOBJ+MbDYzHynq2Cs56EebbjzOQ8T6W9fnLfhoFaq7me7/42NsYUp+GPgl9glCFoCqMoCYMtFJs=
       on:
         tags: true
-        repo: herman-rogers/stream-components
 
 #stages:
 #  - name: master-deploy
