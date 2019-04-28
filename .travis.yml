@@ -3,11 +3,11 @@ node_js:
 - '11'
 env:
   global:
-    - GITHUB_TOKEN=Mzj0awnClznBrvK/aIrIDvZOYeRdTlzP2hSlJXOy4bnsiGVaEDO1K90w6Rbz5J8mYG/d9DMXtBWQGYYPs5Pl5dblHfMbGkWx1TX5wkBXq6dERiiBhUb8O6vRedr1xrGd7lGj3bWFak5k/ZsxrFG/l0PCrDIGxpe/tF2xMs6h0mpvI85pDawpI7EZ+d7ff7GFxnxmkAth/zwJzWzK1Xb9ugBe18RnA9qsVJdgsqWzh8K3oZVxVeEg3XxKpnEwURrcpSQKzYQ1unHzPJUOKoRb+ihuOn6o8Qf/BJsZQ9uOJzoc3COt1czYs76HnaPzrBKEPUybvS+UCDgNt44xYjfKKCnluke+nbkYixOZ95DtU0SM2rsBIVSoZkpf49DM1cSSK9EEHY6W8nLzTSuwH+9CkvCRUaxclao3EpXDA33y1AvA6xe3z/4Pr6AVk7MO+D9rCSfD02KrcxbF2z9t6ABv+XfQPV6hZPAEYfLuExKLONMM6uvYoO6Rt42mjpIaTWdR9vqyhf4mtu2woQxhC8Aa8ak3+9++wJWruNvsk+G2qrlFsMG6n5qjp9C2q/QXalBfIqsBp6cA8OIA7cBNvodCNd2MyTB7/DKVXCtd7CKfuXrOejHMQ0QqLZOGV3XqKc4oqH1IrRlaWWhHbz7NqJCooLySmMomw1l7ccJN1eAuBEw=
+  - secure: XPEhxfYhIyITomlkD+ofe8CxKN9tomHes0pvZaXVwF74UDgswyBU2E3COx/GdYVjjAkFDkNsLly4WaH0mHJC3ReO7aBVgy42gh/JNRmldogE0qfEu+MiVedzR9BWS+pRsf9PwKAmvpCXZD2xD9HAjYSy8tuZ64Z0G5AgTz9dKq28YTXPCtC6xWvueBgMeMB8VLm3XfsV4X8Oeun+qYXos0l3XUyJw7W/6hQVMVHtEDkGLPgoDSrmOUR/G1agCWFTd7QcwTvBZSn2qdnwQJ3DrLIDghCGfRsbWjrUazCfJNZ1I+VEk8R2OcEu+LA8b0/SNiaOQ3vNKBGObU2lEC7TuUuB5xqwMLfbUb6ox+UIHCgEmKodxvacN/pQ6fRWFukgq2DoHX5mPu7OscpVWxw/NjuaxmLLl4i/PpOmQ275nMeDB2R55YabdIcHoj+Y7KFU3wiXW9j/XJyS8Qdw6XgP4ZEWxy9HwbUIBmWlC4wM+/sc+oeDd3FAkP6YMhUdB3vR2c9XJvX5yf83ZhOx9oRacEsqTBAqMOPeElU3akFY9oibSbBEaRFkB3BihX99r52YANrqczj1RrwgdH/eDxL1YeElmVFF8q7BGsV+BpPNUOq2uHClbAJYCDWGnPyBsyt4+S/aqPHcMPKUsKIGEWUsr/FTrO+9MQ/wk7xq/T7S0FE=
 stages:
 - test
 - name: create-tag
-  if: branch=master
+  if: branch = master
 - name: init-deploy
 - deploy
 jobs:
@@ -21,14 +21,12 @@ jobs:
     - git config --global user.email "builds@travis-ci.com"
     - git config --global user.name "Travis CI"
     - echo $GITHUB_TOKEN
-    - git remote add automation https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components.git
+    - git remote set-url origin https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components.git
     - git checkout master
     - yarn version --patch
     - export GIT_TAG=`node -p "require('./package.json').version"`
-    - git push automation master
-    - git push automation $GIT_TAG
-#    - git push https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components:master
-#    - git push https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components:$GIT_TAG
+    - git push origin master
+    - git push origin $GIT_TAG
   - stage: init-deploy
     script:
     - yarn build
@@ -41,4 +39,3 @@ jobs:
       secure: Gtjrs49LWGv+X4c+GDFxX10NNb6JZgblWEW53coiJVLsECJYHRb1LCuyLrne9oT2uMF4OhVgcWwz0Kh1Oj6DMsmMldAMw2ll1B7RR3TNYc0jnR/qHq7fV80EOl0oTM4/vsm+L8HGMskt07MYcAP+sF96As8TM3SUbkeN+0JpnCC5mx9xn6u9eQvapKqvVa9j6yUYa1ZnJ3TdlsNAKEcoUcfzNc4oG8V+CxRB6q2RX+mqLCpOlVW7/asa171A1YTASJlWlNiwtFs41R6SMk9XNtwHHxCZoKWqiu8pyhLOztcaoJc2gJ2HvXz3zBWFgjR2QFvAlavzDrUdLCzr4/xXuM5I5V+N+L78SkO7un3QfvMOTNqLCHWKrPwWkJIMC/XTJWcbBEVUop6JtEU3RlAiQZ7wETxEIGCX209YVJAmX4htdVym6jKJVmdwhMs+iastNR2OEjutyG1h8vb4UU43dGeKhYnBsVAqD//XxCuw90cPQeiIigK3WRQVDPZ9V6UXQ53KpOFqH/oMYZOHbRT0IO4odCYTog6tFhZg1qJWgqwRrnyqgpEZ6mZco6KCz2Keeli/vmzKaa2SWe8sZy/f40iLE/y8+HOtCOBJ+MbDYzHynq2Cs56EebbjzOQ8T6W9fnLfhoFaq7me7/42NsYUp+GPgl9glCFoCqMoCYMtFJs=
     on:
       tags: true
-
