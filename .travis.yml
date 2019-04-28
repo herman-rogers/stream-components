@@ -22,9 +22,10 @@ jobs:
         - git checkout master
         - yarn version --patch
         - export GIT_TAG=`node -p "require('./package.json').version"`
-        - echo $GIT_TAG
+#        - echo $GIT_TAG
         - git status
-        - git add package.json && git commit -m "Update npm version to $GIT_TAG"
+        - git log
+#        - git add package.json && git commit -m "Update npm version to $GIT_TAG"
         - git push origin master
         - git push origin $GIT_TAG
     - stage: init-deploy
