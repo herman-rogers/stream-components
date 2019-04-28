@@ -6,7 +6,8 @@ script:
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
-  - yarn config set version-tag-prefix $TRAVIS_BRANCH
+  - yarn config set version-git-tag false
+  - yarn version --new-version $TRAVIS_BRANCH
   - git add package.json && git commit -m "Update package.json version $TRAVIS_BRANCH"
   - yarn build
 deploy:
