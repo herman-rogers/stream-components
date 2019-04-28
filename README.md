@@ -1,5 +1,5 @@
-RxConnect
-========
+# RxConnect
+
 [![Gitter](https://badges.gitter.im/bsideup/rx-connect.svg)](https://gitter.im/bsideup/rx-connect)
 [![NPM version](https://img.shields.io/npm/v/rx-connect.svg)](https://npmjs.com/package/rx-connect)
 [![Build Status](https://travis-ci.org/bsideup/rx-connect.svg?branch=master)](https://travis-ci.org/bsideup/rx-connect)
@@ -12,53 +12,54 @@ npm install --save rx-connect
 ```
 
 <!--remove-->
+
 ## Documentation
+
 You can find the latest documentation here: http://bsideup.gitbooks.io/rxconnect/content/
+
 <!--endremove-->
 
 ## Why?
+
 Replace this:
 
 ```javascript
 class Timer extends React.Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {
+      counter: 0
+    };
+  }
 
-        this.state = {
-            counter: 0
-        }
-    }
+  componentWillMount() {
+    this.intervalRef = setInterval(
+      () => this.setState(state => ({ counter: state.counter + 1 })),
+      1000
+    );
+  }
 
-    componentWillMount() {
-        this.intervalRef = setInterval(
-            () => this.setState(state => ({ counter: state.counter + 1 })),
-            1000
-        )
-    }
+  componentWillUnmount() {
+    clearInterval(this.intervalRef);
+  }
 
-    componentWillUnmount() {
-        clearInterval(this.intervalRef)
-    }
-
-    render() {
-        return <div>{ this.state.counter }</div>
-    }
+  render() {
+    return <div>{this.state.counter}</div>;
+  }
 }
 ```
 
 with this:
 
 ```javascript
-import { rxConnect } from "rx-connect";
+import { rxConnect } from 'rx-connect';
 
-@rxConnect(
-    Rx.Observable.timer(0, 1000).timestamp()
-)
+@rxConnect(Rx.Observable.timer(0, 1000).timestamp())
 class Timer extends React.PureComponent {
-    render() {
-        return <div>{ this.props.value }</div>
-    }
+  render() {
+    return <div>{this.props.value}</div>;
+  }
 }
 ```
 
@@ -73,9 +74,9 @@ class Timer extends React.PureComponent {
 >
 > and
 >
->  ```javascript
+> ```javascript
 > class MyView extends React.Component {
->     // ...
+>    // ...
 > }
 > export rxConnect(...)(MyView)
 > ```
@@ -85,7 +86,7 @@ class Timer extends React.PureComponent {
 This library supports RxJS 5 by default, but provides an adapter for RxJS 4:
 
 ```js
-import { rxConnect } from "rx-connect";
-import rx4Adapter from "rx-connect/lib/rx4Adapter";
+import { rxConnect } from 'rx-connect';
+import rx4Adapter from 'rx-connect/lib/rx4Adapter';
 rxConnect.adapter = rx4Adapter;
 ```
