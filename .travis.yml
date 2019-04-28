@@ -1,18 +1,25 @@
 language: node_js
 node_js:
 - '11'
+env:
+  global:
+    - GIT_TAG=`node -p "require('./package.json').version"`
 script:
 - yarn test
-- git fetch
-- git checkout master
 before_deploy:
+  - yarn build
+
+stages:
+  - name: master-deploy
   - git config --global user.email "builds@travis-ci.com"
   - git config --global user.name "Travis CI"
-  - git checkout master
-  - yarn config set version-git-tag false
-  - yarn version --new-version $TRAVIS_BRANCH
-  - git add package.json && git commit -m "Update package.json version $TRAVIS_BRANCH"
-  - yarn build
+#  - yarn version --new-version $TRAVIS_BRANCH
+  - echo $GIT_TAG
+#  - git add package.json && git commit -m "Update package.json version $TRAVIS_BRANCH"
+#  - git push origin master
+#  - git push origin $TRAVIS_BRANCH
+    if: branch = master
+
 deploy:
   provider: npm
   email: herman.rogers@pm.me
@@ -21,4 +28,3 @@ deploy:
   on:
     tags: true
     repo: herman-rogers/stream-components
-    branch: master
