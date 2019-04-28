@@ -42,9 +42,9 @@ jobs:
 
       # Update package.json version
       - run: yarn version --new-version $CIRCLE_TAG && git push origin HEAD:master
-      # Builds package.
-      - run: npm run build
-#      - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
+      - run: yarn
+      - run: yarn build
+      - run: echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/repo/.npmrc
 #      - run: npm publish --access public
 
 workflows:
