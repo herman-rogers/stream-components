@@ -7,8 +7,8 @@
     "linter:check": "eslint '{,!(node_modules|.git)/**/}*.{js,json,jsx,md}'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build:package": "babel -d lib/ src/",
-    "prepublishOnly": "npm run build:package"
+    "build": "babel -d lib/ src/",
+    "prepublishOnly": "npm run build"
   },
   "author": "Herman Rogers <herman.rogers@pm.me>",
   "license": "MIT",
