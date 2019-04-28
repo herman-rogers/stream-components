@@ -7,7 +7,7 @@
     "linter:check": "eslint '{,!(node_modules|.git)/**/}*.{js,json,jsx,md}'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build:package": "./node_modules/.bin/babel --presets es2015 -d lib/ src/",
+    "build:package": "babel -d lib/ src/",
     "prepublishOnly": "npm run build:package"
   },
   "author": "Herman Rogers <herman.rogers@pm.me>",
