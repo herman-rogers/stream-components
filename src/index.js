@@ -1,2 +1,2 @@
-export rxConnect from './rxConnect';
-export mapActionCreators, { ofActions } from './mapActionCreators';
+export rxConnect from "./rxConnect";
+export mapActionCreators, { ofActions } from "./mapActionCreators";

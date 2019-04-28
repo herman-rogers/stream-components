@@ -1,26 +1,17 @@
-import '@babel/polyfill';
-import { mapActionCreators, rxConnect } from '../';
-import rx5Adapter from '../rx5Adapter';
-import { getAdapter } from '../rxConnect';
+import "@babel/polyfill";
+import { mapActionCreators } from "../";
+import { getAdapter } from "../rxConnect";
 
-const suites = {
-  'RxJS 6': () => {},
-  'RxJS 5': () => (rxConnect.adapter = rx5Adapter)
-};
-
-describe('map action creators', () => {
+describe("map action creators", () => {
   const { Rx } = getAdapter();
-  beforeEach(() => {
-    // initializer();
-  });
 
-  it('passes non-observables as is', async () => {
-    const props = await mapActionCreators({ a: 123, b: 'hi!' }).toPromise();
+  it("passes non-observables as is", async () => {
+    const props = await mapActionCreators({ a: 123, b: "hi!" }).toPromise();
 
     expect(props).toMatchSnapshot();
   });
 
-  it('strips dollar sign from Observable property names', async () => {
+  it("strips dollar sign from Observable property names", async () => {
     const actions = {
       a$: new Rx.Subject()
     };
@@ -30,7 +21,7 @@ describe('map action creators', () => {
     expect(props).toMatchSnapshot();
   });
 
-  it('creates FuncSubject-like action', async () => {
+  it("creates FuncSubject-like action", async () => {
     const actions = {
       a$: new Rx.BehaviorSubject()
     };
