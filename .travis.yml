@@ -5,16 +5,13 @@ env:
   global:
     secure: IK0Xocjg3gvF7VTrClREwzChKcVHceFFA/vGD8Al9R1B/Xpb35yrVmMq54N33R9s2JtiGHV1oFtgEPC24DF6wdiM7V4EGjDPAg6uw8dUrKkfhQ7/HeX5fd6Xa/nBc6Aej9JdU+1oELMzVp82/ev50qJz84aRmvW0ab+7qKRcW1wZBJDcGSQJR6XjqsmaEAOQnQorxzGANtWLoZYFgAnHkGzLuVKYarz5H3F+lwOvYVC69LH49Y7w4B8y/XrPrgMhVaOGObsLgJaYnbQkMq7EeIYY5ypd07Q/2SnomsLL9TS2HRjZD4zJAoTB/urdR3vhgDST4dhrP4Er5KrtBQRJFbXbdjycnJi/au0GieKytchHnaHEM+PSkiDNWFypoHdSQ16ThrPbN2dSIE8UBKN9742ajIqYyiTpRGJCybK2WzNd2WJQTOEyqUrc057dAOexpqTxXrlFC3MJIxp8RBIfaZTs4ILmQADyTS9MLVX8AUlxeHHimMiCuZl1pg+j/Yz/5nsfC0cfAy/M62186zjLCkoeIfLJStxaCy+m8p4k27rK2mu409d/fXjn66oyzgO9hmh4tMZ7SsLtIYz+ZcVXYtnxvAUu/h4VPsQ/o/1/R/z62S+Uy4FFM61fSUPZp2fA3w8CEhI95cpEMcIDf0EGq1PbrY0FbO/sF989yAopsos=
 stages:
-- before-install
-- test
+#- test
 - name: create-tag
   if: branch = master
-- name: init-deploy
-- deploy
+#- name: init-deploy
+#- deploy
 jobs:
   include:
-  - stage: before-install
-    script: composer config --global github-oauth.github.com "$GITHUB_TOKEN"
   - stage: test
     script: yarn test
   - stage: create-tag
@@ -23,7 +20,7 @@ jobs:
     - export PATH=$HOME/.yarn/bin:$PATH
     - git config --global user.email "builds@travis-ci.com"
     - git config --global user.name "Travis CI"
-    - git remote set-url origin https://herman-rogers:${GITHUB_TOKEN}@github.com/herman-rogers/stream-components.git
+    - git remote set-url origin https://herman-rogers:$GITHUB_TOKEN@github.com/herman-rogers/stream-components.git
     - git remote -v # remove
     - git checkout master
     - yarn version --patch
