@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import { mapActionCreators, rxConnect } from "../";
 import rx5Adapter from "../rx5Adapter";
 import { getAdapter } from "../rxConnect";
@@ -7,10 +8,10 @@ const suites = {
     "RxJS 5": () => rxConnect.adapter = rx5Adapter,
 }
 
-Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
+describe('map action creators', () => {
     const { Rx } = getAdapter();
     beforeEach(() => {
-        initializer();
+        // initializer();
     });
 
     it("passes non-observables as is", async () => {
@@ -41,4 +42,4 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
         expect(actions.a$.getValue()).toMatchSnapshot();
     });
 
-}));
+});

@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import React from "react";
 import renderer from "react-test-renderer";
 
@@ -10,65 +11,67 @@ const suites = {
     "RxJS 5": () => rxConnect.adapter = rx5Adapter,
 }
 
-Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
+// Object.entries(suites).forEach(([ name, initializer ]) => describe(() => {
+describe('rx-connect test', () => {
     let Rx;
     beforeEach(() => {
-        initializer();
+        // initializer();
+
         const adapter = getAdapter();
         Rx = adapter.Rx;
     });
 
     it("works with Observable", () => {
-        const props$ = Rx.Observable.of({ a: 123 });
+        const props$ = Rx.Observable.of({a: 123});
 
-        const Component = rxConnect(props$)(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(props$)(({a}) => <div>{a}</div>);
 
-        const tree = renderer.create(<Component />).toJSON();
+        const tree = renderer.create(<Component/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("works with Array", () => {
         const props$ = () => [
-            Rx.Observable.of({ a: 123 }),
-            Rx.Observable.of({ foo: "bar" }),
+            Rx.Observable.of({a: 123}),
+            Rx.Observable.of({foo: "bar"}),
         ];
 
-        const Component = rxConnect(props$)(({ a, foo }) => <div>{a}{foo}</div>);
+        const Component = rxConnect(props$)(({a, foo}) => <div>{a}{foo}</div>);
 
-        const tree = renderer.create(<Component />).toJSON();
+        const tree = renderer.create(<Component/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("works with Generator", () => {
         const props$ = function* () {
-            yield Rx.Observable.of({ a: 123 });
-            yield Rx.Observable.of({ foo: "bar" });
+            yield Rx.Observable.of({a: 123});
+            yield Rx.Observable.of({foo: "bar"});
         };
 
-        const Component = rxConnect(props$)(({ a, foo }) => <div>{a}{foo}</div>);
+        const Component = rxConnect(props$)(({a, foo}) => <div>{a}{foo}</div>);
 
-        const tree = renderer.create(<Component />).toJSON();
+        const tree = renderer.create(<Component/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("passes properties as Observable", () => {
         const connector = props$ => props$.pipe(
-          Rx.Observable.pluck("someProp"), 
-          Rx.Observable.map(a => ({ a }))
+            Rx.Observable.pluck("someProp"),
+            Rx.Observable.map(a => ({a}))
         );
 
-        const Component = rxConnect(connector)(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(connector)(({a}) => <div>{a}</div>);
 
-        const tree = renderer.create(<Component someProp={123} />).toJSON();
+        const tree = renderer.create(<Component someProp={123}/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("passes children automatically", () => {
-        const Component = rxConnect(Rx.Observable.of({}))(({ children }) => <div>{children}</div>);
+        const Component = rxConnect(Rx.Observable.of({}))(({children}) => <div>{children}</div>);
 
         const tree = renderer.create(<Component>Hello, RxConnect!</Component>).toJSON();
 
@@ -76,27 +79,27 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
     });
 
     it("ignores not connect properties", () => {
-        const Component = rxConnect(Rx.Observable.of({ }))(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(Rx.Observable.of({}))(({a}) => <div>{a}</div>);
 
-        const tree = renderer.create(<Component a={123} />).toJSON();
+        const tree = renderer.create(<Component a={123}/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("accepts function-based mutations", () => {
-        const Component = rxConnect(Rx.Observable.of(() => ({ a: 123 })))(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(Rx.Observable.of(() => ({a: 123})))(({a}) => <div>{a}</div>);
 
-        const tree = renderer.create(<Component />).toJSON();
+        const tree = renderer.create(<Component/>).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it("throws an error if mutation is neither an object or function", () => {
         // eslint-disable-next-line no-console
-        console.error = jest.genMockFn();
+        console.error = jest.fn();
 
-        const Component = rxConnect(Rx.Observable.of([ 123 ]))(({ a }) => <div>{a}</div>);
-        renderer.create(<Component />).toJSON();
+        const Component = rxConnect(Rx.Observable.of([123]))(({a}) => <div>{a}</div>);
+        renderer.create(<Component/>).toJSON();
 
         // eslint-disable-next-line no-console
         expect(console.error.mock.calls[0]).toMatchSnapshot();
@@ -104,10 +107,10 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
 
     it("throws an error if selector is neither an Observable or function", () => {
         // eslint-disable-next-line no-console
-        console.error = jest.genMockFn();
+        console.error = jest.fn();
 
-        const Component = rxConnect(undefined)(({ a }) => <div>{a}</div>);
-        renderer.create(<Component />).toJSON();
+        const Component = rxConnect(undefined)(({a}) => <div>{a}</div>);
+        renderer.create(<Component/>).toJSON();
 
         // eslint-disable-next-line no-console
         expect(console.error.mock.calls[0]).toMatchSnapshot();
@@ -115,10 +118,10 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
 
     it("throws an error if selector returns non-Observable", () => {
         // eslint-disable-next-line no-console
-        console.error = jest.genMockFn();
+        console.error = jest.fn();
 
-        const Component = rxConnect(() => undefined)(({ a }) => <div>{a}</div>);
-        renderer.create(<Component />).toJSON();
+        const Component = rxConnect(() => undefined)(({a}) => <div>{a}</div>);
+        renderer.create(<Component/>).toJSON();
 
         // eslint-disable-next-line no-console
         expect(console.error.mock.calls[0]).toMatchSnapshot();
@@ -126,10 +129,10 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
 
     it("receives new props", async () => {
         const connector = props$ => props$.pipe(
-          Rx.Observable.map(({ a, b }) => ({ a: a + b }))
+            Rx.Observable.map(({a, b}) => ({a: a + b}))
         );
 
-        const Component = rxConnect(connector)(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(connector)(({a}) => <div>{a}</div>);
 
         class Parent extends React.Component {
             state = {
@@ -142,28 +145,28 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
             }
         }
 
-        const parent = renderer.create(<Parent />);
+        const parent = renderer.create(<Parent/>);
 
         // 15
         expect(parent.toJSON()).toMatchSnapshot();
 
-        parent.getInstance().setState({ a: -5 });
+        parent.getInstance().setState({a: -5});
 
         // Still 15 because of debouncing
         expect(parent.toJSON()).toMatchSnapshot();
 
-        parent.getInstance().setState({ b: -10 });
+        parent.getInstance().setState({b: -10});
 
         // Skip 1 frame because of debounce
         await Rx.Observable.interval(0).pipe(
-          Rx.Observable.take(1)
+            Rx.Observable.take(1)
         ).toPromise();
 
         expect(parent.toJSON()).toMatchSnapshot();
     });
 
     it("noDebounce", () => {
-        const Component = rxConnect(props$ => props$, { noDebounce: true })(({ i }) => <div>{i}</div>);
+        const Component = rxConnect(props$ => props$, {noDebounce: true})(({i}) => <div>{i}</div>);
 
         class Parent extends React.Component {
             state = {
@@ -175,11 +178,11 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
             }
         }
 
-        const parent = renderer.create(<Parent />);
+        const parent = renderer.create(<Parent/>);
 
         expect(parent.toJSON()).toMatchSnapshot();
 
-        parent.getInstance().setState({ i: 1 });
+        parent.getInstance().setState({i: 1});
 
         expect(parent.toJSON()).toMatchSnapshot();
     })
@@ -189,9 +192,9 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
 
         expect(props$.observers).toHaveLength(0);
 
-        const Component = rxConnect(props$)(({ a }) => <div>{a}</div>);
+        const Component = rxConnect(props$)(({a}) => <div>{a}</div>);
 
-        const node = renderer.create(<Component />);
+        const node = renderer.create(<Component/>);
 
         expect(props$.observers).toHaveLength(1);
 
@@ -199,4 +202,4 @@ Object.entries(suites).forEach(([ name, initializer ]) => describe(name, () => {
 
         expect(props$.observers).toHaveLength(0);
     });
-}));
+});

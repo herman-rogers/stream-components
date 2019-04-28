@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "RxJS state for React",
   "scripts": {
+    "linter:fix": "prettier es5 --single-quote --write '{,!(node_modules|.git)/**/}*.{js,json,jsx,md}'",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -11,13 +12,22 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-function-bind": "^7.2.0",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "jest": "^24.7.1",
+    "jest-cli": "^24.7.1",
     "prettier": "^1.17.0",
+    "react-test-renderer": "^16.8.6",
     "rxjs-v5": "npm:rxjs@5.5.12"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isplainobject": "^4.0.6",
     "react": "^16.8.6",
     "rxjs": "^6.5.1"
   }
