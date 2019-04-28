@@ -1,6 +1,6 @@
-var path = require('path');
+const path = require('path');
 
-var config = {
+const config = {
   externals: ['react', 'rx', 'rx/dist/rx.lite', 'rxjs', 'rxjs/Rx'],
   output: {
     library: 'RxConnect',

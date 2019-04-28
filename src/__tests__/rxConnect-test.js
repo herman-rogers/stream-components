@@ -1,25 +1,11 @@
 import '@babel/polyfill';
 import React from 'react';
 import renderer from 'react-test-renderer';
-
 import { rxConnect } from '../';
 import { getAdapter } from '../rxConnect';
-import rx5Adapter from '../rx5Adapter';
 
-const suites = {
-  'RxJS 6': () => {},
-  'RxJS 5': () => (rxConnect.adapter = rx5Adapter)
-};
-
-// Object.entries(suites).forEach(([ name, initializer ]) => describe(() => {
 describe('rx-connect test', () => {
-  let Rx;
-  beforeEach(() => {
-    // initializer();
-
-    const adapter = getAdapter();
-    Rx = adapter.Rx;
-  });
+  const Rx = getAdapter().Rx;
 
   it('works with Observable', () => {
     const props$ = Rx.Observable.of({ a: 123 });

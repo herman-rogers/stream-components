@@ -1,18 +1,9 @@
 import '@babel/polyfill';
-import { mapActionCreators, rxConnect } from '../';
-import rx5Adapter from '../rx5Adapter';
+import { mapActionCreators } from '../';
 import { getAdapter } from '../rxConnect';
-
-const suites = {
-  'RxJS 6': () => {},
-  'RxJS 5': () => (rxConnect.adapter = rx5Adapter)
-};
 
 describe('map action creators', () => {
   const { Rx } = getAdapter();
-  beforeEach(() => {
-    // initializer();
-  });
 
   it('passes non-observables as is', async () => {
     const props = await mapActionCreators({ a: 123, b: 'hi!' }).toPromise();

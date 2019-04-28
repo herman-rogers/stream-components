@@ -1,7 +1,6 @@
 import React from 'react';
 import isPlainObject from 'lodash.isplainobject';
 import isObject from 'lodash.isobject';
-import isArray from 'lodash.isarray';
 
 const DEFAULT_OPTIONS = {
   noDebounce: false
@@ -65,7 +64,6 @@ export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
         }
 
         if (!isObservable(mutations$)) {
-          // eslint-disable-next-line no-undef
           if (mutations$ && typeof mutations$[Symbol.iterator] === 'function') {
             mutations$ = Observable.merge(...mutations$);
           } else {
@@ -91,7 +89,7 @@ export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
                 return Object.assign({}, state, mutation);
               }
 
-              if (isObject(mutation) && !isArray(mutation)) {
+              if (isObject(mutation) && !Array.isArray(mutation)) {
                 return Object.assign({}, state, { ...mutation });
               }
 
