@@ -1,6 +1,6 @@
 import '@babel/polyfill';
-import { mapActionCreators } from '../';
-import { getAdapter } from '../rxConnect';
+import { mapActionCreators } from '../src';
+import { getAdapter } from '../src/rxConnect';
 
 describe('mapActionCreators RxJS 6', () => {
   const { Rx } = getAdapter();

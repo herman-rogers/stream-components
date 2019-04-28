@@ -4,7 +4,9 @@
   "plugins": ["prettier"],
   "globals": {
     "it": false,
-    "describe": false
+    "describe": false,
+    "jest": false,
+    "expect": false
   },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }]

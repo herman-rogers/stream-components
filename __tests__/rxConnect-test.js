@@ -1,11 +1,11 @@
 import '@babel/polyfill';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { rxConnect } from '../';
-import { getAdapter } from '../rxConnect';
+import { rxConnect } from '../src';
+import { getAdapter } from '../src/rxConnect';
 
 describe('rxConnect RxJS 6', () => {
-  const Rx = getAdapter().Rx;
+  const { Rx } = getAdapter();
 
   it('works with Observable', () => {
     const props$ = Rx.Observable.of({ a: 123 });
