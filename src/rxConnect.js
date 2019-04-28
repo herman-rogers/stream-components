@@ -1,13 +1,13 @@
-import React from "react";
-import isPlainObject from "lodash.isplainobject";
-import isObject from "lodash.isobject";
+import React from 'react';
+import isPlainObject from 'lodash.isplainobject';
+import isObject from 'lodash.isobject';
 
 const DEFAULT_OPTIONS = {
   noDebounce: false
 };
 
 function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || "Component";
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 function isObservable(obj) {
   if (!obj) {
@@ -18,14 +18,14 @@ function isObservable(obj) {
 }
 
 export function getAdapter() {
-  const adapter = rxConnect.adapter || require("./rx6adapter");
+  const adapter = rxConnect.adapter || require('./rx6adapter');
   return adapter.__esModule ? adapter.default : adapter;
 }
 
 export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
   return WrappedComponent =>
     class RxConnector extends React.PureComponent {
-      static displayName = "RxConnector";
+      static displayName = 'RxConnector';
 
       stateSubscription = undefined;
 
@@ -49,7 +49,7 @@ export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
 
         let mutations$ = selector;
         if (!isObservable(mutations$)) {
-          if (typeof selector === "function") {
+          if (typeof selector === 'function') {
             mutations$ = selector(this.props$);
           } else {
             // eslint-disable-next-line no-console
@@ -64,7 +64,7 @@ export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
         }
 
         if (!isObservable(mutations$)) {
-          if (mutations$ && typeof mutations$[Symbol.iterator] === "function") {
+          if (mutations$ && typeof mutations$[Symbol.iterator] === 'function') {
             mutations$ = Observable.merge(...mutations$);
           } else {
             // eslint-disable-next-line no-console
@@ -81,7 +81,7 @@ export default function rxConnect(selector, options = DEFAULT_OPTIONS) {
         this.stateSubscription = mutations$
           .pipe(
             Observable.scan((state, mutation) => {
-              if (typeof mutation === "function") {
+              if (typeof mutation === 'function') {
                 return mutation(state);
               }
 

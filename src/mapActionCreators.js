@@ -1,4 +1,4 @@
-import { getAdapter } from "./rxConnect";
+import { getAdapter } from './rxConnect';
 
 export function ofActions(actions) {
   const { Rx } = getAdapter();
@@ -7,7 +7,7 @@ export function ofActions(actions) {
     Object.keys(actions).reduce((result, key) => {
       const action = actions[key];
 
-      if (key.endsWith("$")) {
+      if (key.endsWith('$')) {
         result[key.slice(0, -1)] = (...args) => {
           getAdapter().next(action, args);
         };
