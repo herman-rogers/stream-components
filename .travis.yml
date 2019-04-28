@@ -4,7 +4,11 @@ node_js:
 script:
 - yarn test
 before_deploy:
-- yarn build
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - yarn config set version-tag-prefix $TRAVIS_BRANCH
+  - git add package.json && git commit -m "Update package.json version $TRAVIS_BRANCH"
+  - yarn build
 deploy:
   provider: npm
   email: herman.rogers@pm.me
